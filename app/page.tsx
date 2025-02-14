@@ -1,101 +1,72 @@
-import Image from "next/image";
+"use client"
+
+import { useActionState } from "react"
+import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { submitName } from "./actions"
+
+const initialState = {
+  message: "",
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [state, formAction] = useActionState(submitName, initialState)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+  return (
+    <main className="min-h-screen p-4 md:p-8 lg:p-24">
+      <div className="max-w-3xl mx-auto space-y-8">
+        <Card className="p-6">
+          <form action={formAction} className="space-y-4">
+            <div className="space-y-2">
+              <label
+                htmlFor="name"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Enter your name
+              </label>
+              <Input id="name" name="name" placeholder="Type your name here..." required className="w-full" />
+            </div>
+            <Button type="submit" className="w-full sm:w-auto">
+              Submit
+            </Button>
+          </form>
+
+          {state?.message && <p className="mt-4 text-lg font-medium text-center">{state.message}</p>}
+        </Card>
+
+        <Card className="p-6">
+          <h2 className="text-2xl font-bold mb-4">How it works</h2>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="server-actions">
+              <AccordionTrigger>Server Actions</AccordionTrigger>
+              <AccordionContent>
+                Server Actions are asynchronous functions that execute on the server. In this example, when you submit
+                the form, a server action processes your name and returns a greeting message. This happens without a
+                full page reload, thanks to Next.js 15&apos;s enhanced form handling.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="components">
+              <AccordionTrigger>Shadcn UI Components</AccordionTrigger>
+              <AccordionContent>
+                This app uses several Shadcn UI components: Card for container layouts, Input for the name field, Button
+                for form submission, and Accordion for this explanation section. These components provide a consistent,
+                accessible, and beautiful design system.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="nextjs">
+              <AccordionTrigger>Next.js 15 Features</AccordionTrigger>
+              <AccordionContent>
+                This application showcases several Next.js 15 features, including Server Actions for form handling, the
+                new App Router for simplified routing, and enhanced form handling with useActionState for managing form
+                state and submissions.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </Card>
+      </div>
+    </main>
+  )
 }
+
