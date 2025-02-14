@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { submitName } from "./actions"
+import type { State } from "./actions"
 
-const initialState = {
+const initialState: State = {
   message: "",
 }
 

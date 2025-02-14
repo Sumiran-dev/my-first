@@ -1,6 +1,10 @@
 "use server"
 
-export async function submitName(prevState: any, formData: FormData) {
+export type State = {
+  message: string
+}
+
+export async function submitName(prevState: State, formData: FormData): Promise<State> {
   const name = formData.get("name")
 
   if (!name || typeof name !== "string") {
