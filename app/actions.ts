@@ -15,7 +15,7 @@ export async function submitName(prevState: State, formData: FormData): Promise<
   await new Promise((resolve) => setTimeout(resolve, 500))
 
   return {
-    message: `Hello ${name}. I hope you are doing well. If you are looking for a full stack developer, please do contact Sumiran Bastola!`,
+    message: `Hello ${name}. I hope you are doing well. If you are looking for a Cyber Secuirty person, please do contact Sumiran Bastola!`,
   }
 }
 
